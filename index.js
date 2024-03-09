@@ -10,10 +10,11 @@ const usermodel= require("./model/user");
 const trainmodel = require("./model/training");
 const recruitmodel = require("./model/recruitment");
 const employeemodel = require("./model/employee");
-const userloginmodel = require("./model/userlogin");
 const employeeprofilemodel = require("./model/employeeprofile");
 const grievancemodel = require("./model/grievance");
 const loginemodel = require("./model/userlogin");
+const leaveController = require('./model/leaveController');
+
 
 
 
@@ -177,10 +178,25 @@ app.put('/employeeprofile', async (req, res) => {
 });
 
 
+//grievance
+///save data button
+app.post('/grievance',(request,response)=>{
+  console.log(request.body)
+  new grievancemodel(request.body).save();
+  response.send("Record Sucessfully Saved")
+  })
+ 
+
+
 app.get('/grievanceview',async(request,response)=>{
   var data = await grievancemodel.find();
   response.send(data)
   })
+
+
+  app.post('/leaves', leaveController.submitLeaveRequest);
+app.get('/leaverequests', leaveController.getLeaveRequests);
+app.put('/leaves/:id', leaveController.updateLeaveRequest);
 
 
 
